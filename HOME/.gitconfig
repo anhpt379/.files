@@ -1,0 +1,84 @@
+[user]
+  name = Anh Pham
+  email = anhpt379@gmail.com
+
+[core]
+  editor = nvim
+  commitGraph = true
+  excludesFile = ~/.gitignore_global
+  pager = cat
+  untrackedCache = true
+
+[color]
+  ui = true
+
+[alias]
+  fixup = absorb --and-rebase
+  amend = commit --amend
+  merged = branch --merged
+  pushf = push --force
+  undo = reset --soft HEAD^
+  undo-amend = reset --soft HEAD@{1}
+  prune = fetch --prune
+  stash-all = stash save --include-untracked
+  stashed = stash list --pretty=format:'%gd: %Cred%h%Creset %Cgreen[%ar]%Creset %s'
+  apply-gitignore = !git ls-files -ci --exclude-standard -z | xargs -0 git rm --cached
+  default-branch = !git symbolic-ref refs/remotes/origin/HEAD | cut -d'/' -f4
+  wip = !git add --all && git commit -m 'WIP'
+  drop = reset --hard HEAD
+  root = rev-parse --show-toplevel
+
+[status]
+  showUntrackedFiles = all
+
+[pager]
+  diff = diff-so-fancy | view  # can't use nvimpager here, since it failed to render diff-so-fancy's output
+  log  = view
+  show = diff-so-fancy | view
+
+[interactive]
+  diffFilter = (echo && diff-so-fancy)
+
+[diff]
+  algorithm = histogram
+
+[color "diff"]
+  commit = green
+  meta = yellow
+  frag = cyan
+  old = red
+  new = green
+  whitespace = red reverse
+
+[help]
+  autocorrect = 5
+
+[commit]
+  template = ~/.gitmessage
+
+[rebase]
+  autoStash = true
+
+[rerere]
+  enabled = true
+
+[pull]
+  rebase = false
+
+[push]
+  default = current
+
+[gc]
+  writeCommitGraph = true
+
+[advice]
+  statusHints = false
+
+[feature]
+  manyFiles = false
+
+[init]
+  defaultBranch = master
+
+[includeIf "gitdir:~/code/work/"]
+  path = ~/code/work/.gitconfig

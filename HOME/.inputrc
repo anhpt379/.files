@@ -1,0 +1,31 @@
+# Option+left/right to jump word by word
+"\e[1;3C": forward-word
+"\e[1;3D": backward-word
+
+# Page-up/page-down to move between whitespace-delimited words
+"\e[5~": shell-forward-word
+"\e[6~": shell-backward-word
+
+# Option+delete
+"\e[3;3~": kill-word
+
+# Control+backspace/delete
+"\C-w": unix-word-rubout
+"\e[3;5~": kill-word
+
+# Fix not working home/end keys in CentOS 7.9
+"\e[1~": beginning-of-line
+"\e[4~": end-of-line
+
+"\C-h": beginning-of-line
+"\C-l": end-of-line
+
+# Press ESC twice to delete the current line
+"\e\e": kill-whole-line
+
+# Ctrl+D to exit bash immediately
+"\C-d": "\C-u\C-d"
+
+# Autocomplete with a single <Tab> press
+TAB: menu-complete
+set show-all-if-ambiguous on
