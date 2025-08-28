@@ -1,0 +1,101 @@
+# Number
+regexp=\b(\d+)\b
+colours=default dark
+
+-
+# Float
+regexp=\b(\d+\.\d+)\b
+colours=default dark
+
+-
+# Bracket
+regexp=[\[\]]
+colours=default dark
+-
+regexp=[\{\}]
+colours=default dark
+-
+regexp=[\<\>]
+colours=default dark
+-
+regexp=[\`\`]
+colours=default dark
+
+-
+# MD5
+regexp=\b[a-z0-9]{32}\b
+colours=magenta
+
+-
+# SHA1
+regexp=\b[a-z0-9]{40}\b
+colours=magenta
+
+-
+# IPv4
+regexp=\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b
+colours=default dark
+
+-
+# IPv6
+# regexp=\b([A-Fa-f0-9]{1,4}::?){1,7}[A-Fa-f0-9]{1,4}\b
+# colours=cyan
+
+-
+# MAC
+regexp=(\d|[a-f]){2}(\:(\d|[a-f]){2}){5}
+colours=default dark
+
+-
+# UUID
+regexp=\b[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}\b
+colours=yellow
+
+-
+# ISOTime
+regexp=\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+(\+\d{2}:\d{2}|Z)?
+colours=default dark
+
+
+-
+# Email
+regexp=\b\S+@\S+\.\S+\b
+colours=red
+
+-
+# Git commit date time
+regexp=(\w{3} \w{3} \d{2} \d{2}:\d{2}:\d{2} \d{4} \+\d{4})
+colours=green
+
+-
+# Log level
+regexp=(EMERGENCY|EMERG|ALERT|CRITICAL|CRIT|FATAL)
+colours=red bold
+-
+regexp=(ERROR|ERR|FAILURE|SEVERE)
+colours=red
+-
+regexp=(WARNING|WARN|NOTICE)
+colours=yellow
+-
+regexp=(INFO|NOTE|YAY)
+colours=green
+-
+regexp=(DEBUG|FINE|TRACE|FINER|FINEST)
+colours=white dark
+
+-
+# String
+regexp=".*?"
+colours=yellow
+
+-
+# String
+regexp='.*?'
+colours=yellow
+
+-
+# JSON
+regexp=\{.*\}
+colours=default
+

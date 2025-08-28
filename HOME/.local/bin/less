@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# If input is piped, fallback to system less directly
+if [ ! -t 0 ] || ! command -v nvimpager &>/dev/null; then
+  /usr/bin/less "$@"
+  exit $?
+fi
+
+RAW_MODE=false
+FORCE_LESS=false
+ARGS=()
+
+for arg in "$@"; do
+  case "$arg" in
+  -R) RAW_MODE=true ;;
+  +F) FORCE_LESS=true ;;
+  *) ARGS+=("$arg") ;;
+  esac
+done
+
+if [ ${#ARGS[@]} -eq 0 ]; then
+  /usr/bin/less
+  exit $?
+fi
+
+file="${ARGS[$((${#ARGS[@]} - 1))]}"
+
+if [ ! -e "$file" ]; then
+  echo "$file: No such file or directory"
+  exit 1
+fi
+
+if [ ! -r "$file" ]; then
+  echo "$(basename "$0"): $file: Permission denied"
+  exit 1
+fi
+
+file_size=$(ls -s --block-size=1048576 "$file" | cut -d' ' -f1) # in MB
+long_line_len=$(head --bytes=4096 "$file" 2>/dev/null | head -1 | wc --chars)
+
+if $FORCE_LESS || [ "$file_size" -gt 200 ] || [ "$long_line_len" -gt 1000 ]; then
+  /usr/bin/less --line-numbers "${ARGS[@]}"
+  exit $?
+fi
+
+nvimpager -p "$file"
