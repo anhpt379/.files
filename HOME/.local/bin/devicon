@@ -1,0 +1,61 @@
+#!/usr/bin/env python3
+#! coding: utf-8
+# vim:sw=4:
+
+import re
+import sys
+from pathlib import Path
+from signal import signal, SIGPIPE, SIG_DFL
+
+def strip_ansi_codes(text):
+    ansi_escape = re.compile(r'\x1B[@-_][0-?]*[ -/]*[@-~]')
+    return ansi_escape.sub('', text)
+
+# http://newbebweb.blogspot.com/2012/02/python-head-ioerror-errno-32-broken.html
+signal(SIGPIPE, SIG_DFL)
+
+icons_file = Path.home() / ".config/lf/icons"
+icons = {}
+for line in open(icons_file):
+    line = line.strip()
+    if not line or line[0] == "#":
+        continue
+    else:
+        extension, icon = line.strip().split()
+        icons[extension.lstrip("*").lower()] = icon
+
+should_add_devicon = True
+for line in sys.stdin:
+    line = line.strip()
+    if not line:
+        print(line)
+    elif "\t" in line or line.startswith("--") or not should_add_devicon:
+        should_add_devicon = False
+        print(line)
+    elif len(sys.argv) == 2 and sys.argv[1] == "remove":
+        if " " not in line:
+            print(line)
+        else:
+            icon = line.split(" ", 1)[0][-1]
+            if icon == icons.get("fi") or icon in icons.values():
+                text = line.replace(icon + " ", "")
+                print(text)
+            else:
+                print(line)
+    else:
+        path = line.split(":", 1)[0]    # Ignore text after `:` (line/column in ripgrep output)
+        path = strip_ansi_codes(path)
+        file = path.rsplit("/", 1)[-1]
+        if path.endswith("/"):
+            icon = icons.get(path) or icons.get("/")
+        else:
+            icon = icons.get(file)
+
+        if not icon and "." in file:
+            extension = Path(file).suffix.lower()
+            icon = icons.get(extension)
+
+        if not icon:
+            icon = icons.get("fi")
+
+        print(f"{icon} {line}")
